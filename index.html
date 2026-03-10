@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freya and Greg get married</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2D5A3D;
+            --secondary: #E8D4C0;
+            --accent: #C4A572;
+            --light-bg: #F8F6F1;
+            --dark-text: #2C2C2C;
+            --light-text: #F8F6F1;
+            --border-color: #D4BFA8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+
+        /* Header Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a3a27 100%);
+            color: var(--light-text);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .site-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        nav button {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--light-text);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--dark-text);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .wedding-date {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .wedding-location {
+            font-size: 1.1rem;
+            color: var(--dark-text);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Card Styling */
+        .card {
+            background: white;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .card-subtitle {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            padding-left: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 20px;
+            width: 3px;
+            height: calc(100% + 1rem);
+            background: var(--border-color);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-time {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-event {
+            color: var(--dark-text);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .timeline-note {
+            color: #777;
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: 0.3rem;
+        }
+
+        .weather-note {
+            background: #FFF4E6;
+            border-left: 4px solid #FF9800;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            color: #D97706;
+        }
+
+        .weather-note strong {
+            color: #B45309;
+        }
+
+        /* List Styling */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            line-height: 1.8;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a3a27 100%);
+            color: var(--light-text);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+
+        .info-box h4 {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .info-box p {
+            margin-bottom: 0.5rem;
+            opacity: 0.95;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .site-title {
+                font-size: 1.3rem;
+            }
+
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                width: 100%;
+                gap: 0.3rem;
+            }
+
+            nav button {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 1.5rem 0;
+            }
+
+            .timeline-item {
+                padding-left: 2rem;
+            }
+
+            .timeline-item::before {
+                width: 16px;
+                height: 16px;
+                left: -8px;
+            }
+
+            .timeline-item::after {
+                left: 4px;
+            }
+        }
+
+        /* Additional Styling */
+        .highlight {
+            background: linear-gradient(120deg, #FFE66D 0%, #FFC857 100%);
+            padding: 0.2rem 0.4rem;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light-text);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            color: var(--dark-text);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background: var(--primary);
+            color: var(--light-text);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            opacity: 0.9;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item-text {
+            padding: 1rem;
+        }
+
+        .gallery-item-text h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-item-text p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div>
+                <div class="site-title">🏔️ Freya and Greg get married</div>
+                <div class="site-subtitle">9th May 2026 - Isle of Arran</div>
+            </div>
+            <nav id="nav">
+                <button class="nav-btn active" onclick="showPage('home', this)">Home</button>
+                <button class="nav-btn" onclick="showPage('itinerary', this)">Day Itinerary</button>
+                <button class="nav-btn" onclick="showPage('accommodation', this)">Accommodation</button>
+                <button class="nav-btn" onclick="showPage('getting-here', this)">Getting There</button>
+                <button class="nav-btn" onclick="showPage('things-to-do', this)">Things to Do</button>
+                <button class="nav-btn" onclick="showPage('faq', this)">FAQ</button>
+                <button class="nav-btn" onclick="showPage('RSVP', this)">RSVP</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <img src="https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/17896/production/_124360469_goatfell-gettyimages-147472366.jpg" alt="Goatfell Mountain" class="hero-image">
+                <h1>Welcome!</h1>
+                <div class="wedding-date">9th May 2026</div>
+                <div class="wedding-location">On top of Goatfell, Isle of Arran</div>
+                <p style="font-size: 1.1rem; margin: 1.5rem 0; line-height: 1.8;">
+                    Join us for our wedding on the summit of Goatfell, 
+                    followed by drinks at Scotland's only beach cocktail bar (pending)  
+                    and an evening meal.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h4>🗺️ The Plan</h4>
+                <p><strong>Ceremony:</strong> On top of Goatfell mountain (weather dependent)</p>
+                <p><strong>Drinks:</strong> Arran Botanicals beach cocktail bar (pending)</p>
+                <p><strong>Dinner:</strong> Evening meal (venue and time TBC)</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⚡ Important Weather Note</div>
+                <p>
+                    The hike and ceremony are dependent on weather conditions. If the weather is inclement, 
+                    we may reschedule the ceremony to a few days either side of 9th May. However, 
+                    the drinks and meal will still take place on 9th May.
+                </p>
+                <p style="margin-top: 1rem; font-weight: 600; color: var(--accent);">
+                    More details will be confirmed closer to the date!
+                </p>
+            </div>
+
+            <h2>What&rsquo;s on this site</h2>
+            <p>
+                Navigate using the menu above to find everything you need to know about the wedding, 
+                accommodation options, getting to Arran, and things to do while you&rsquo;re there.
+            </p>
+        </div>
+
+        <!-- ITINERARY PAGE -->
+        <div id="itinerary" class="page">
+            <h2>Wedding Day Itinerary - 9th May 2026</h2>
+
+            <div class="weather-note">
+                <strong>⚠️ Weather Dependent:</strong> The ceremony and hike may be replaced by a beach venue or rescheduled to a nearby date 
+                (a day either side of 9th May) if weather conditions on Goatfell are unsuitable. 
+                Drinks and meal will remain on 9th May.
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">Early Morning (TBC, but likely ~0830)</div>
+                    <div class="timeline-event">Hike Departs for Goatfell from Corrie</div>
+                    <div class="timeline-note">Exact time to be confirmed based on weather and fitness levels</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Mid Morning (TBC)</div>
+                    <div class="timeline-event">Ceremony on Goatfell Summit</div>
+                    <div class="timeline-note">Celebration on the 874m peak with spectacular views</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Afternoon (TBC)</div>
+                    <div class="timeline-event">Descent and Rest Period</div>
+                    <div class="timeline-note">Descend and have a rest/drink at Scotland's only beach cocktail bar</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Late Afternoon/Evening (TBC)</div>
+                    <div class="timeline-event">Wedding Meal</div>
+                    <div class="timeline-note">Venue and exact time to be confirmed, but likely to be around 1700</div>
+                </div>
+            </div>
+
+            <h3>Important Information</h3>
+            <div class="card">
+                <div class="card-title">Goatfell Hike Details</div>
+                <ul>
+                    <li><strong>Distance:</strong> Approximately 10 km (~6.2 mi) round trip</li>
+                    <li><strong>Elevation:</strong> 874m summit with ~890m elevation gain</li>
+                    <li><strong>Duration:</strong> Roughly 6-7 hours round trip depending on fitness and ceremony time</li>
+                    <li><strong>Difficulty:</strong> Moderate</li>
+                    <li><strong>What to bring:</strong> Hiking boots/other hiking footwear, waterproof jacket, layers (Scottish weather!), 
+                        water, snacks, and sunscreen</li>
+                    <li><strong>Walking poles:</strong> Recommended, but not essential</li>
+                    <li><strong>Weather:</strong> Could be anything, so we will be checking regularly</li>
+                    <li><strong>Insect repellant:</strong> Is essential. Midges may well be present. Arran also has ticks which can carry Lyme disease.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Who&rsquo;s Hiking?</div>
+                <p>
+                    Whoever wants to! If you don't want to hike, that is absolutely fine; you can join us later.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Contact & Final Details</div>
+                <p>
+                    Closer to May, we&rsquo;ll form a WhatsApp group for updates and send information about:
+                </p>
+                <ul>
+                    <li>Exact times for the hike and ceremony</li>
+                    <li>Weather contingency plans</li>
+                    <li>Dinner venue and time</li>
+                    <li>Transport arrangements</li>
+                    <li>Any last-minute changes</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ACCOMMODATION PAGE -->
+        <div id="accommodation" class="page">
+            <h2>Accommodation</h2>
+            <p>
+                Arran has a variety of accommodation options for all budgets and preferences. 
+                Here are some recommendations:
+            </p>
+
+            <h3>Hotels & Guest Houses</h3>
+            <div class="card">
+                <div class="card-title">Auchrannie Resort, Brodick</div>
+                <div class="card-subtitle">4-star resort</div>
+                <p>
+                    Large resort with multiple accommodation wings, restaurant, spa, and leisure facilities. 
+                    Good for groups and has plenty of amenities.
+                </p>
+                <p><strong>Contact:</strong> <a href="https://www.auchrannie.co.uk" target="_blank">auchrannie.co.uk</a></p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">The Douglas Hotel</div>
+                <div class="card-subtitle">4-star hotel</div>
+                <p>
+                    Historic Victorian building with scenic grounds. Offers a more intimate experience 
+                    with restaurant and bar facilities.
+                </p>
+                <p><strong>Contact:</strong> <a href="https://www.thedouglashotel.co.uk/" target="_blank">thedouglashotel.co.uk</a></p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">The Corrie Hotel</div>
+                <div class="card-subtitle">3-star hotel</div>
+                <p>
+                    Quiet hotel from 1850 with a picturesque beer garden on the seafront.
+                </p>
+                <p><strong>Contact:</strong> <a href="https://corriehotel.co.uk/" target="_blank">corriehotel.co.uk</a></p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Various Guest Houses & B&amp;Bs</div>
+                <div class="card-subtitle">Budget-friendly options</div>
+                <p>
+                    Arran has numerous guest houses and bed &amp; breakfasts throughout the island. 
+                    These offer authentic Scottish hospitality and are often more affordable.
+                </p>
+            </div>
+
+            <h3>Self-Catering Options</h3>
+            <div class="card">
+                <div class="card-title">Holiday Cottages &amp; Apartments</div>
+                <p>
+                    Self-catering cottages and apartments are available across Arran, from cosy single cottages 
+                    to larger properties suitable for families and groups. Check local booking sites or AirBnb for availability.
+                </p>
+            </div>
+
+            <h3>Camping & Glamping</h3>
+            <div class="card">
+                <div class="card-title">Arran Adventure Facilities</div>
+                <p>
+                    If you prefer a more outdoor experience, Arran offers camping and glamping options. 
+                </p>
+            </div>
+
+        </div>
+
+        <!-- GETTING THERE PAGE -->
+        <div id="getting-here" class="page">
+            <h2>Getting to Arran</h2>
+            <p>
+                The Isle of Arran is accessible by car and ferry. Here&rsquo;s how to get there:
+            </p>
+
+            <h3>By Car & Ferry (Most Common)</h3>
+            <div class="card">
+                <div class="card-title">Ardrossan to Brodick Ferry (CalMac)</div>
+                <p>
+                    <strong>From Glasgow:</strong> Drive south-west to Ardrossan (approximately 30 minutes from Glasgow city centre).
+                </p>
+                <p>
+                    <strong>Ferry crossing:</strong> Approximately 55 minutes from Ardrossan to Brodick, Arran.
+                </p>
+                <p>
+                    <strong>Cost:</strong> Standard car + driver plus foot passengers (prices vary by season and if you have a vehicle).
+                </p>
+                <p>
+                    <strong>Booking:</strong> <a href="https://www.calmac.co.uk" target="_blank">CalMac Ferries</a> 
+                    (book in advance, especially for cars in May).
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Claonaig (Kintyre) to Lochranza Ferry (Seasonal)</div>
+                <p>
+                    <strong>Alternative route:</strong> Ferry from Claonaig on the Kintyre Peninsula to Lochranza 
+                    in the north of Arran (April-September, weather dependent).
+                </p>
+                <p>
+                    <strong>Crossing time:</strong> Approximately 30 minutes.
+                </p>
+                <p>
+                    <strong>Booking:</strong> <a href="https://www.calmac.co.uk" target="_blank">CalMac Ferries</a>
+                </p>
+            </div>
+
+            <h3>Air Travel</h3>
+            <div class="card">
+                <div class="card-title">Glasgow Airport</div>
+                <p>
+                    If flying into Scotland, Glasgow is the nearest major airport. From there, it&rsquo;s a 
+                    straightforward drive south-west to Ardrossan ferry terminal.
+                </p>
+                <p>
+                    <strong>Tip:</strong> Car rental is recommended for exploring Arran, 
+                    but taxis are available if needed.
+                </p>
+            </div>
+
+            <h3>Public Transport</h3>
+            <div class="card">
+                <div class="card-title">Train + Ferry</div>
+                <p>
+                    Trains run to Ardrossan from Glasgow and other parts of Scotland. 
+                    It&rsquo;s then a short walk to the ferry terminal.
+                </p>
+            </div>
+
+            <h3>Parking</h3>
+            <div class="card">
+                <div class="card-title">Ferry Parking &amp; Parking on Arran</div>
+                <ul>
+                    <li><strong>Ardrossan:</strong> Car parking available at/near ferry terminal</li>
+                    <li><strong>Arran:</strong> Ample parking at Brodick ferry terminal and throughout the island</li>
+                    <li><strong>Tip:</strong> Parking on Arran is generally free or very inexpensive</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>📋 Journey Planning</h4>
+                <p><strong>From Central Belt:</strong> Glasgow city centre to Brodick is approximately 1.5-2 hours travel time (depending on traffic and ferry queue)</p>
+                <p><strong>From UK:</strong> Edinburgh and other Scottish cities will take 2-3 hours total</p>
+                <p><strong>Luggage:</strong> Ferry can accommodate cars with luggage, so don&rsquo;t worry about packing light</p>
+            </div>
+        </div>
+
+        <!-- THINGS TO DO PAGE -->
+        <div id="things-to-do" class="page">
+            <h2>Things to Do on Arran</h2>
+            <p>
+                Arran is a wonderful island with plenty of activities and attractions. 
+                Whether you&rsquo;re staying before or after the wedding, here&rsquo;s what to explore:
+            </p>
+
+            <h3>Outdoor Activities</h3>
+            <div class="card">
+                <div class="card-title">🏔️ Hiking & Mountain Walking</div>
+                <ul>
+                    <li><strong>Goatfell:</strong> The iconic peak (obviously!)</li>
+                    <li><strong>Caisteal Abhail:</strong> Dramatic rock formations and views</li>
+                    <li><strong>Ben Nuis & Ben Bharrain:</strong> Beautiful ridges and summits</li>
+                    <li><strong>Coastal walks:</strong> Stunning beach and cliff walks throughout the island</li>
+                    <li><strong>Arran Way:</strong> 62 km coastal footpath perfect for day hikes</li>
+                    <li><strong>Dinosaur footprints:</strong> Need we say more?</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🏖️ Beaches</div>
+                <ul>
+                    <li><strong>Brodick Beach:</strong> Sandy beach near Brodick town</li>
+                    <li><strong>Machrie Moor:</strong> Long sandy beach (where Arran Botanicals is located!)</li>
+                    <li><strong>Kildonan Beach:</strong> Peaceful south coast beach</li>
+                    <li><strong>Pirnmill Beach:</strong> Scenic northern beach with forest walks</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⛵ Water Sports</div>
+                <ul>
+                    <li>Kayaking and canoeing</li>
+                    <li>Fishing (sea and river)</li>
+                    <li>Boat trips and wildlife viewing (seals, sea birds)</li>
+                    <li>Windsurfing (seasonal)</li>
+                </ul>
+            </div>
+
+            <h3>Cultural & Historical Attractions</h3>
+            <div class="card">
+                <div class="card-title">🏛️ Museums & Heritage Sites</div>
+                <ul>
+                    <li><strong>Isle of Arran Heritage Museum:</strong> Learn about local history and archaeology</li>
+                    <li><strong>Brodick Castle:</strong> Historic castle with gardens overlooking the coast</li>
+                    <li><strong>Machrie Moor Stone Circles:</strong> Ancient standing stones with mysterious origins</li>
+                    <li><strong>Lochranza Castle:</strong> Picturesque ruins on the north coast</li>
+                </ul>
+            </div>
+
+            <h3>Culinary Experiences</h3>
+            <div class="card">
+                <div class="card-title">🍽️ Food &amp; Drink</div>
+                <ul>
+                    <li><strong>Arran Botanicals:</strong> The famous beach cocktail bar! 🍸</li>
+                    <li><strong>Isle of Arran Distillery:</strong> Whisky distillery with tours and tastings</li>
+                    <li><strong>Arran Cheese:</strong> Visit the maker or buy locally</li>
+                    <li><strong>Local restaurants:</strong> Fresh seafood and traditional Scottish fare throughout Brodick and villages</li>
+                </ul>
+            </div>
+
+            <h3>Relaxation &amp; Wellness</h3>
+            <div class="card">
+                <div class="card-title">🧘 Self-Care Activities</div>
+                <ul>
+                    <li>Auchrannie Resort spa facilities</li>
+                    <li>Quiet beach time for reflection</li>
+                    <li>Scenic picnics with island views</li>
+                    <li>Photography opportunities galore</li>
+                </ul>
+            </div>
+
+            <h3>Wildlife &amp; Nature</h3>
+            <div class="card">
+                <div class="card-title">🦅 Nature Watching</div>
+                <ul>
+                    <li>Bird watching (golden eagles, sea eagles, seabirds)</li>
+                    <li>Seal spotting (grey seals and harbour seals)</li>
+                    <li>Scenic photography of landscapes and wildlife</li>
+                    <li>Botanical exploration (Arran is a paradise for plants!)</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- FAQ PAGE -->
+        <div id="faq" class="page">
+            <h2>Frequently Asked Questions</h2>
+
+	    <div class="card">
+                <div class="card-title">This is a bit short notice...</div>
+                <p>
+                    Yes, and for that we apologise. We would love it if you are able to join us, but if you aren't able to then we totally understand.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Do I have to hike Goatfell?</div>
+                <p>
+                    No! The hike is optional. If you prefer not to hike, you can join us at Arran Botanicals for drinks 
+                    and the evening meal.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">What if the weather is bad on 9th May?</div>
+                <p>
+                    If the weather on Goatfell is unsuitable for a safe hike and ceremony, we will reschedule the hike and 
+                    ceremony to a nearby date (a day either side). However, the drinks at Arran Botanicals and 
+                    the evening meal will always take place on 9th May as planned.
+                    Alternatively, we might keep the ceremony on the 9th, but move the location to the beach.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">How fit do I need to be to hike Goatfell?</div>
+                <p>
+                    Goatfell is moderate to challenging. A reasonable level of fitness is needed, but it&rsquo;s not extreme. 
+                    The 874m elevation gain and ~6 hour round trip should be manageable for anyone with moderate hiking experience. 
+                    If you have concerns, please get in touch - we can advise further or arrange alternatives.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">What should I bring for the hike?</div>
+                <p>
+                    <strong>Essential:</strong>
+                </p>
+                <ul>
+                    <li>Hiking footwear (boots or hiking-specific shoes) (waterproof recommended)</li>
+                    <li>Waterproof jacket +/- waterproof trousers</li>
+                    <li>Layers (fleece or insulating layer)</li>
+                    <li>Water bottle (at least 1L)</li>
+                    <li>Snacks/energy food</li>
+                    <li>Sunscreen and hat</li>
+                    <li>Basic first aid kit for your needs, eg blister plasters</li>
+                    <li>Anti-insect spray/cream etc</li>
+                </ul>
+                <p><strong>Recommended:</strong></p>
+                <ul>
+                    <li>Walking poles (if you usually use them)</li>
+                    <li>Rucksack (20-30L is fine)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Why does it keep saying "(pending)" next to the beach cocktail bar?</div>
+                <p>
+                    In short, we had arranged this with the owner, but he has subsequently sold the business and it's up in the air if the new owners are going to accept our request. Watch this space.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Is there public transport on Arran?</div>
+                <p>
+                    Yes, Arran has a bus service (Stagecoach) connecting main towns and villages. However, 
+                    a car is recommended for full flexibility exploring the island. Taxis are available if needed.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">When should I book accommodation?</div>
+                <p>
+                    May can be a busy season on Arran. We recommend booking accommodation as soon as possible to secure 
+                    your preferred option and location.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Are dietary requirements catered for?</div>
+                <p>
+                    It's a vegan dinner, of course. If you have allergies, please tell us.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Can I bring a plus one?</div>
+                <p>
+                    Yes, as long as you tell us.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">What&rsquo;s the dress code?</div>
+                <p>
+                    Mountain chic. Something comfortable and practical. There's no expectation to change between the hike and drink/dinner.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Is there anything I should bring?</div>
+                <p>
+                    Apart from hiking gear for the mountain day, just bring yourself and good spirits! 
+                    Gifts are not required; your presence is more important.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Who should I contact with questions?</div>
+                <p>
+                    Freya or Greg.
+                </p>
+            </div>
+        </div>
+    
+    
+    <!-- RSVP PAGE -->
+        <div id="RSVP" class="page">
+            <h2>RSVP</h2>
+
+            <div class="card">
+                <div class="card-title">How do I RSVP?</div>
+                <p>
+                    Click this link: <a href="https://tinyurl.com/RSVPtoFreg" target="_blank">RSVP</a>
+                </p>
+            </div>
+    </div>
+    </div>
+
+    <footer>
+        <p>&copy; Freg Websites Inc. 2026 • A celebration on Goatfell • Isle of Arran</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">
+            For questions or special requests, please contact us.
+        </p>
+    </footer>
+
+    <script>
+        function showPage(pageId, button) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+
+            // Update nav button state
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const buttons = Array.from(document.querySelectorAll('.nav-btn'));
+                const activeButton = document.querySelector('.nav-btn.active');
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let newIndex = currentIndex;
+                if (e.key === 'ArrowRight' && currentIndex < buttons.length - 1) {
+                    newIndex = currentIndex + 1;
+                } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    newIndex = currentIndex - 1;
+                }
+                
+                buttons[newIndex].click();
+            }
+        });
+    </script>
+</body>
+</html>
